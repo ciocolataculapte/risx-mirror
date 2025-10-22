@@ -1,0 +1,13 @@
+{
+    "editor.rulers": [
+        80
+    ],
+    "[asm-intel-x86-generic]": {
+        "editor.rulers": [
+            8,
+            16,
+            40,
+            80
+        ]
+    },
+}

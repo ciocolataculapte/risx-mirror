@@ -49,175 +49,175 @@ void printf (const char *format, ...);
 void
 risx (unsigned long magic, unsigned long addr)
 {
-  struct MULTIBOOT2_tag *tag;
-  unsigned size;
+//   struct MULTIBOOT2_tag *tag;
+//   unsigned size;
 
-  /*  Clear the screen. */
-  cls ();
+//   /*  Clear the screen. */
+//   cls ();
 
-  /*  Am I booted by a Multiboot-compliant boot loader? */
-  if (magic != MULTIBOOT2_BOOTLOADER_MAGIC)
-    {
-      printf ("Invalid magic number: 0x%x\n", (unsigned) magic);
-      return;
-    }
+//   /*  Am I booted by a Multiboot-compliant boot loader? */
+//   if (magic != MULTIBOOT2_BOOTLOADER_MAGIC)
+//     {
+//       printf ("Invalid magic number: 0x%x\n", (unsigned) magic);
+//       return;
+//     }
 
-  if (addr & 7)
-    {
-      printf ("Unaligned mbi: 0x%x\n", addr);
-      return;
-    }
+//   if (addr & 7)
+//     {
+//       printf ("Unaligned mbi: 0x%x\n", addr);
+//       return;
+//     }
 
-  size = *(unsigned *) addr;
-  printf ("Announced mbi size 0x%x\n", size);
-  for (tag = (struct MULTIBOOT2_tag *) (addr + 8);
-       tag->type != MULTIBOOT2_TAG_TYPE_END;
-       tag = (struct MULTIBOOT2_tag *) ((uint8_t *) tag
-                                       + ((tag->size + 7) & ~7)))
-    {
-      printf ("Tag 0x%x, Size 0x%x\n", tag->type, tag->size);
-      switch (tag->type)
-        {
-        case MULTIBOOT2_TAG_TYPE_CMDLINE:
-          printf ("Command line = %s\n",
-                  ((struct MULTIBOOT2_tag_string *) tag)->string);
-          break;
-        case MULTIBOOT2_TAG_TYPE_BOOT_LOADER_NAME:
-          printf ("Boot loader name = %s\n",
-                  ((struct MULTIBOOT2_tag_string *) tag)->string);
-          break;
-        case MULTIBOOT2_TAG_TYPE_MODULE:
-          printf ("Module at 0x%x-0x%x. Command line %s\n",
-                  ((struct MULTIBOOT2_tag_module *) tag)->mod_start,
-                  ((struct MULTIBOOT2_tag_module *) tag)->mod_end,
-                  ((struct MULTIBOOT2_tag_module *) tag)->cmdline);
-          break;
-        case MULTIBOOT2_TAG_TYPE_BASIC_MEMINFO:
-          printf ("mem_lower = %uKB, mem_upper = %uKB\n",
-                  ((struct MULTIBOOT2_tag_basic_meminfo *) tag)->mem_lower,
-                  ((struct MULTIBOOT2_tag_basic_meminfo *) tag)->mem_upper);
-          break;
-        case MULTIBOOT2_TAG_TYPE_BOOTDEV:
-          printf ("Boot device 0x%x,%u,%u\n",
-                  ((struct MULTIBOOT2_tag_bootdev *) tag)->biosdev,
-                  ((struct MULTIBOOT2_tag_bootdev *) tag)->slice,
-                  ((struct MULTIBOOT2_tag_bootdev *) tag)->part);
-          break;
-        case MULTIBOOT2_TAG_TYPE_MMAP:
-          {
-            MULTIBOOT2_memory_map_t *mmap;
+//   size = *(unsigned *) addr;
+//   printf ("Announced mbi size 0x%x\n", size);
+//   for (tag = (struct MULTIBOOT2_tag *) (addr + 8);
+//        tag->type != MULTIBOOT2_TAG_TYPE_END;
+//        tag = (struct MULTIBOOT2_tag *) ((uint8_t *) tag
+//                                        + ((tag->size + 7) & ~7)))
+//     {
+//       printf ("Tag 0x%x, Size 0x%x\n", tag->type, tag->size);
+//       switch (tag->type)
+//         {
+//         case MULTIBOOT2_TAG_TYPE_CMDLINE:
+//           printf ("Command line = %s\n",
+//                   ((struct MULTIBOOT2_tag_string *) tag)->string);
+//           break;
+//         case MULTIBOOT2_TAG_TYPE_BOOT_LOADER_NAME:
+//           printf ("Boot loader name = %s\n",
+//                   ((struct MULTIBOOT2_tag_string *) tag)->string);
+//           break;
+//         case MULTIBOOT2_TAG_TYPE_MODULE:
+//           printf ("Module at 0x%x-0x%x. Command line %s\n",
+//                   ((struct MULTIBOOT2_tag_module *) tag)->mod_start,
+//                   ((struct MULTIBOOT2_tag_module *) tag)->mod_end,
+//                   ((struct MULTIBOOT2_tag_module *) tag)->cmdline);
+//           break;
+//         case MULTIBOOT2_TAG_TYPE_BASIC_MEMINFO:
+//           printf ("mem_lower = %uKB, mem_upper = %uKB\n",
+//                   ((struct MULTIBOOT2_tag_basic_meminfo *) tag)->mem_lower,
+//                   ((struct MULTIBOOT2_tag_basic_meminfo *) tag)->mem_upper);
+//           break;
+//         case MULTIBOOT2_TAG_TYPE_BOOTDEV:
+//           printf ("Boot device 0x%x,%u,%u\n",
+//                   ((struct MULTIBOOT2_tag_bootdev *) tag)->biosdev,
+//                   ((struct MULTIBOOT2_tag_bootdev *) tag)->slice,
+//                   ((struct MULTIBOOT2_tag_bootdev *) tag)->part);
+//           break;
+//         case MULTIBOOT2_TAG_TYPE_MMAP:
+//           {
+//             MULTIBOOT2_memory_map_t *mmap;
 
-            printf ("mmap\n");
+//             printf ("mmap\n");
 
-            for (mmap = ((struct MULTIBOOT2_tag_mmap *) tag)->entries;
-                 (uint8_t *) mmap
-                   < (uint8_t *) tag + tag->size;
-                 mmap = (MULTIBOOT2_memory_map_t *)
-                   ((unsigned long) mmap
-                    + ((struct MULTIBOOT2_tag_mmap *) tag)->entry_size))
-              printf (" base_addr = 0x%x%x,"
-                      " length = 0x%x%x, type = 0x%x\n",
-                      (unsigned) (mmap->addr >> 32),
-                      (unsigned) (mmap->addr & 0xffffffff),
-                      (unsigned) (mmap->len >> 32),
-                      (unsigned) (mmap->len & 0xffffffff),
-                      (unsigned) mmap->type);
-          }
-          break;
-        case MULTIBOOT2_TAG_TYPE_FRAMEBUFFER:
-          {
-            uint32_t color;
-            unsigned i;
-            struct MULTIBOOT2_tag_framebuffer *tagfb
-              = (struct MULTIBOOT2_tag_framebuffer *) tag;
-            void *fb = (void *) (unsigned long) tagfb->common.framebuffer_addr;
+//             for (mmap = ((struct MULTIBOOT2_tag_mmap *) tag)->entries;
+//                  (uint8_t *) mmap
+//                    < (uint8_t *) tag + tag->size;
+//                  mmap = (MULTIBOOT2_memory_map_t *)
+//                    ((unsigned long) mmap
+//                     + ((struct MULTIBOOT2_tag_mmap *) tag)->entry_size))
+//               printf (" base_addr = 0x%x%x,"
+//                       " length = 0x%x%x, type = 0x%x\n",
+//                       (unsigned) (mmap->addr >> 32),
+//                       (unsigned) (mmap->addr & 0xffffffff),
+//                       (unsigned) (mmap->len >> 32),
+//                       (unsigned) (mmap->len & 0xffffffff),
+//                       (unsigned) mmap->type);
+//           }
+//           break;
+//         case MULTIBOOT2_TAG_TYPE_FRAMEBUFFER:
+//           {
+//             uint32_t color;
+//             unsigned i;
+//             struct MULTIBOOT2_tag_framebuffer *tagfb
+//               = (struct MULTIBOOT2_tag_framebuffer *) tag;
+//             void *fb = (void *) (unsigned long) tagfb->common.framebuffer_addr;
 
-            switch (tagfb->common.framebuffer_type)
-              {
-              case MULTIBOOT2_FRAMEBUFFER_TYPE_INDEXED:
-                {
-                  unsigned best_distance, distance;
-                  struct MULTIBOOT2_color *palette;
+//             switch (tagfb->common.framebuffer_type)
+//               {
+//               case MULTIBOOT2_FRAMEBUFFER_TYPE_INDEXED:
+//                 {
+//                   unsigned best_distance, distance;
+//                   struct MULTIBOOT2_color *palette;
 
-                  palette = tagfb->framebuffer_palette;
+//                   palette = tagfb->framebuffer_palette;
 
-                  color = 0;
-                  best_distance = 4*256*256;
+//                   color = 0;
+//                   best_distance = 4*256*256;
 
-                  for (i = 0; i < tagfb->framebuffer_palette_num_colors; i++)
-                    {
-                      distance = (0xff - palette[i].blue)
-                        * (0xff - palette[i].blue)
-                        + palette[i].red * palette[i].red
-                        + palette[i].green * palette[i].green;
-                      if (distance < best_distance)
-                        {
-                          color = i;
-                          best_distance = distance;
-                        }
-                    }
-                }
-                break;
+//                   for (i = 0; i < tagfb->framebuffer_palette_num_colors; i++)
+//                     {
+//                       distance = (0xff - palette[i].blue)
+//                         * (0xff - palette[i].blue)
+//                         + palette[i].red * palette[i].red
+//                         + palette[i].green * palette[i].green;
+//                       if (distance < best_distance)
+//                         {
+//                           color = i;
+//                           best_distance = distance;
+//                         }
+//                     }
+//                 }
+//                 break;
 
-              case MULTIBOOT2_FRAMEBUFFER_TYPE_RGB:
-                color = ((1 << tagfb->framebuffer_blue_mask_size) - 1)
-                  << tagfb->framebuffer_blue_field_position;
-                break;
+//               case MULTIBOOT2_FRAMEBUFFER_TYPE_RGB:
+//                 color = ((1 << tagfb->framebuffer_blue_mask_size) - 1)
+//                   << tagfb->framebuffer_blue_field_position;
+//                 break;
 
-              case MULTIBOOT2_FRAMEBUFFER_TYPE_EGA_TEXT:
-                color = '\\' | 0x0100;
-                break;
+//               case MULTIBOOT2_FRAMEBUFFER_TYPE_EGA_TEXT:
+//                 color = '\\' | 0x0100;
+//                 break;
 
-              default:
-                color = 0xffffffff;
-                break;
-              }
+//               default:
+//                 color = 0xffffffff;
+//                 break;
+//               }
 
-            for (i = 0; i < tagfb->common.framebuffer_width
-                   && i < tagfb->common.framebuffer_height; i++)
-              {
-                switch (tagfb->common.framebuffer_bpp)
-                  {
-                  case 8:
-                    {
-                      uint8_t *pixel = fb
-                        + tagfb->common.framebuffer_pitch * i + i;
-                      *pixel = color;
-                    }
-                    break;
-                  case 15:
-                  case 16:
-                    {
-                      uint16_t *pixel
-                        = fb + tagfb->common.framebuffer_pitch * i + 2 * i;
-                      *pixel = color;
-                    }
-                    break;
-                  case 24:
-                    {
-                      uint32_t *pixel
-                        = fb + tagfb->common.framebuffer_pitch * i + 3 * i;
-                      *pixel = (color & 0xffffff) | (*pixel & 0xff000000);
-                    }
-                    break;
+//             for (i = 0; i < tagfb->common.framebuffer_width
+//                    && i < tagfb->common.framebuffer_height; i++)
+//               {
+//                 switch (tagfb->common.framebuffer_bpp)
+//                   {
+//                   case 8:
+//                     {
+//                       uint8_t *pixel = fb
+//                         + tagfb->common.framebuffer_pitch * i + i;
+//                       *pixel = color;
+//                     }
+//                     break;
+//                   case 15:
+//                   case 16:
+//                     {
+//                       uint16_t *pixel
+//                         = fb + tagfb->common.framebuffer_pitch * i + 2 * i;
+//                       *pixel = color;
+//                     }
+//                     break;
+//                   case 24:
+//                     {
+//                       uint32_t *pixel
+//                         = fb + tagfb->common.framebuffer_pitch * i + 3 * i;
+//                       *pixel = (color & 0xffffff) | (*pixel & 0xff000000);
+//                     }
+//                     break;
 
-                  case 32:
-                    {
-                      uint32_t *pixel
-                        = fb + tagfb->common.framebuffer_pitch * i + 4 * i;
-                      *pixel = color;
-                    }
-                    break;
-                  }
-              }
-            break;
-          }
+//                   case 32:
+//                     {
+//                       uint32_t *pixel
+//                         = fb + tagfb->common.framebuffer_pitch * i + 4 * i;
+//                       *pixel = color;
+//                     }
+//                     break;
+//                   }
+//               }
+//             break;
+//           }
 
-        }
-    }
-  tag = (struct MULTIBOOT2_tag *) ((uint8_t *) tag
-                                  + ((tag->size + 7) & ~7));
-  printf ("Total mbi size 0x%x\n", (unsigned) tag - addr);
+//         }
+//     }
+//   tag = (struct MULTIBOOT2_tag *) ((uint8_t *) tag
+//                                   + ((tag->size + 7) & ~7));
+//   printf ("Total mbi size 0x%x\n", (unsigned) tag - addr);
 }
 
 /*  Clear the screen and initialize VIDEO, XPOS and YPOS. */

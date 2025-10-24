@@ -20,10 +20,10 @@ OBJS := $(patsubst src/%, $(OBJ_DIR)/%, $(OBJS:.c=.o))
 all: risx.elf32
 
 risx.iso: risx.elf32 config/grub/grub.cfg
-	@mkdir -p iso/boot/grub
-	@cp config/grub/grub.cfg iso/boot/grub/grub.cfg
-	@cp $(OBJ_DIR)/risx.elf32 iso/boot/risx.elf32
-	@grub-mkrescue -o risx.iso iso \
+	@mkdir -p target/iso/boot/grub
+	@cp config/grub/grub.cfg target/iso/boot/grub/grub.cfg
+	@cp $(OBJ_DIR)/risx.elf32 target/iso/boot/risx.elf32
+	@grub-mkrescue -o risx.iso target/iso \
 		&& echo "ISO OK" \
 		|| echo "ISO FAILED"
 
@@ -40,7 +40,7 @@ $(OBJ_DIR)/%.o: src/%.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 clean:
-	@rm -rf target/i686 iso/boot risx.iso
+	@rm -rf target/i686 target/iso risx.iso
 
 check: risx.elf32
 	@grub-file --is-x86-multiboot2 $(OBJ_DIR)/risx.elf32 \

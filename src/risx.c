@@ -25,7 +25,7 @@ uint32_t validate_mbi(uint32_t magic, uint32_t addr) {
         return 1;
     }
 
-    if ((addr & MULTIBOOT2_INFO_ALIGN) != 0) {
+    if ((addr & 0x7) != 0) {
         puts("error: unaligned multiboot2 info structure\n");
         return 1;
     }

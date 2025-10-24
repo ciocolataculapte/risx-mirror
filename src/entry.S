@@ -15,7 +15,7 @@ _start: lea     esp, stack0             # initialize stack
         push    eax                     # magic number
 
         cli
-        lgdt    [_desc]                  # load global descriptor table
+        lgdt    [_desc]                 # load global descriptor table
 
         jmp     CODE_SEG_OFFSET:L1      # update code segment register
 L1:     mov     ax, DATA_SEG_OFFSET     # update other segment registers

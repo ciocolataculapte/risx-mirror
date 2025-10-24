@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include <multiboot2.h>
-#include <vga.h>
+#include "multiboot2.h"
+#include "vga.h"
 
 uint32_t risx(uint32_t magic, uint32_t addr);
 uint32_t validate_mbi(uint32_t magic, uint32_t addr);

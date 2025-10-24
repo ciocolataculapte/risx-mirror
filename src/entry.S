@@ -54,7 +54,7 @@ _desc:  .word   (. - _gdt0 - 1)
         # # # # # # # # # # # # # # # #
         .section .bss
         .align  16
-stack0:                                 # stack for core 0
-top0:   .skip   STACK_SIZE
-stack1:                                 # stack for core 1
-top1:   .skip   STACK_SIZE
+bot0:   .skip   STACK_SIZE
+stack0:                                 # stack for core 0 (broken)
+bot1:   .skip   STACK_SIZE
+stack1:                                 # stack for core 1 (good)

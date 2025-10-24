@@ -40,7 +40,7 @@ $(OBJ_DIR)/%.o: src/%.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 clean:
-	@rm -rf target iso risx.iso
+	@rm -rf target/i686 iso/boot risx.iso
 
 check: risx.elf32
 	@grub-file --is-x86-multiboot2 $(OBJ_DIR)/risx.elf32 \

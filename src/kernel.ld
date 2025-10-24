@@ -20,9 +20,12 @@ SECTIONS
         KEEP(*(.data))
     }
 
+    __bss_start = .;
     .bss : {
         . = ALIGN(16);
         KEEP(*(.bss))
         KEEP(*(COMMON))
     }
+    __bss_end = .;
+    __bss_size = __bss_end - __bss_start;
 }

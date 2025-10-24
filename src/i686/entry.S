@@ -25,6 +25,11 @@ L1:     mov     ax, DATA_SEG_OFFSET     # update other segment registers
         mov     gs, ax
         mov     ss, ax
 
+        mov     edi, __bss_start        # clear bss
+        mov     ecx, __bss_size
+        xor     ax, ax
+        rep     stosb
+
         call    risx                    # should never return
         cli
 

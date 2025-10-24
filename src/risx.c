@@ -6,7 +6,7 @@ uint32_t risx(uint32_t magic, uintptr_t addr);
 uint32_t validate_mbi(uint32_t magic, uintptr_t addr);
 
 uint32_t risx(uint32_t magic, uintptr_t addr) {
-    vga_set_background_color(BG_BLUE);
+    vga_set_background_color(BG_LIGHT_BLUE);
     vga_set_foreground_color(FG_WHITE);
     clrscr();
 

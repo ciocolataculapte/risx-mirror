@@ -1,9 +1,28 @@
+// Copyright (C) 1999,2003,2007,2008,2009,2010  Free Software Foundation, Inc.
+// Copyright (C) 2025 Ioan-Alexandru Catana
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL ANY
+// DEVELOPER OR DISTRIBUTOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+// IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #ifndef MULTIBOOT2_HEADER
 #define MULTIBOOT2_HEADER 1
 
 #include <stdint.h>
 
-// Alignment stuff
 #define MULTIBOOT2_SEARCH 32768
 #define MULTIBOOT2_HEADER_ALIGN 8
 #define MULTIBOOT2_HEADER_MAGIC 0xe85250d6
@@ -11,7 +30,6 @@
 #define MULTIBOOT2_MOD_ALIGN 0x00001000
 #define MULTIBOOT2_INFO_ALIGN 0x00000008
 
-// Flag bits
 #define MULTIBOOT2_TAG_ALIGN 8
 #define MULTIBOOT2_TAG_TYPE_END 0
 #define MULTIBOOT2_TAG_TYPE_CMDLINE 1
@@ -59,27 +77,27 @@
 #define MULTIBOOT2_CONSOLE_FLAGS_CONSOLE_REQUIRED 1
 #define MULTIBOOT2_CONSOLE_FLAGS_EGA_TEXT_SUPPORTED 2
 
-struct MULTIBOOT2_header {
+struct multiboot2_header {
         uint32_t magic;
         uint32_t architecture;
         uint32_t header_length;
         uint32_t checksum;
 };
 
-struct MULTIBOOT2_header_tag {
+struct multiboot2_header_tag {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
 };
 
-struct MULTIBOOT2_header_tag_information_request {
+struct multiboot2_header_tag_information_request {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
         uint32_t requests[0];
 };
 
-struct MULTIBOOT2_header_tag_address {
+struct multiboot2_header_tag_address {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
@@ -89,21 +107,21 @@ struct MULTIBOOT2_header_tag_address {
         uint32_t bss_end_addr;
 };
 
-struct MULTIBOOT2_header_tag_entry_address {
+struct multiboot2_header_tag_entry_address {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
         uint32_t entry_addr;
 };
 
-struct MULTIBOOT2_header_tag_console_flags {
+struct multiboot2_header_tag_console_flags {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
         uint32_t console_flags;
 };
 
-struct MULTIBOOT2_header_tag_framebuffer {
+struct multiboot2_header_tag_framebuffer {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
@@ -112,13 +130,13 @@ struct MULTIBOOT2_header_tag_framebuffer {
         uint32_t depth;
 };
 
-struct MULTIBOOT2_header_tag_module_align {
+struct multiboot2_header_tag_module_align {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
 };
 
-struct MULTIBOOT2_header_tag_relocatable {
+struct multiboot2_header_tag_relocatable {
         uint16_t type;
         uint16_t flags;
         uint32_t size;
@@ -128,13 +146,13 @@ struct MULTIBOOT2_header_tag_relocatable {
         uint32_t preference;
 };
 
-struct MULTIBOOT2_color {
+struct multiboot2_color {
         uint8_t red;
         uint8_t green;
         uint8_t blue;
 };
 
-struct MULTIBOOT2_mmap_entry {
+struct multiboot2_mmap_entry {
         uint32_t addr;
         uint32_t len;
 #define MULTIBOOT2_MEMORY_AVAILABLE 1
@@ -145,20 +163,20 @@ struct MULTIBOOT2_mmap_entry {
         uint32_t type;
         uint32_t zero;
 };
-typedef struct MULTIBOOT2_mmap_entry MULTIBOOT2_memory_map_t;
+typedef struct multiboot2_mmap_entry multiboot2_memory_map_t;
 
-struct MULTIBOOT2_tag {
+struct multiboot2_tag {
         uint32_t type;
         uint32_t size;
 };
 
-struct MULTIBOOT2_tag_string {
+struct multiboot2_tag_string {
         uint32_t type;
         uint32_t size;
         char string[0];
 };
 
-struct MULTIBOOT2_tag_module {
+struct multiboot2_tag_module {
         uint32_t type;
         uint32_t size;
         uint32_t mod_start;
@@ -166,14 +184,14 @@ struct MULTIBOOT2_tag_module {
         char cmdline[0];
 };
 
-struct MULTIBOOT2_tag_basic_meminfo {
+struct multiboot2_tag_basic_meminfo {
         uint32_t type;
         uint32_t size;
         uint32_t mem_lower;
         uint32_t mem_upper;
 };
 
-struct MULTIBOOT2_tag_bootdev {
+struct multiboot2_tag_bootdev {
         uint32_t type;
         uint32_t size;
         uint32_t biosdev;
@@ -181,23 +199,23 @@ struct MULTIBOOT2_tag_bootdev {
         uint32_t part;
 };
 
-struct MULTIBOOT2_tag_mmap {
+struct multiboot2_tag_mmap {
         uint32_t type;
         uint32_t size;
         uint32_t entry_size;
         uint32_t entry_version;
-        struct MULTIBOOT2_mmap_entry entries[0];
+        struct multiboot2_mmap_entry entries[0];
 };
 
-struct MULTIBOOT2_vbe_info_block {
+struct multiboot2_vbe_info_block {
         uint8_t external_specification[512];
 };
 
-struct MULTIBOOT2_vbe_mode_info_block {
+struct multiboot2_vbe_mode_info_block {
         uint8_t external_specification[256];
 };
 
-struct MULTIBOOT2_tag_vbe {
+struct multiboot2_tag_vbe {
         uint32_t type;
         uint32_t size;
 
@@ -206,11 +224,11 @@ struct MULTIBOOT2_tag_vbe {
         uint16_t vbe_interface_off;
         uint16_t vbe_interface_len;
 
-        struct MULTIBOOT2_vbe_info_block vbe_control_info;
-        struct MULTIBOOT2_vbe_mode_info_block vbe_mode_info;
+        struct multiboot2_vbe_info_block vbe_control_info;
+        struct multiboot2_vbe_mode_info_block vbe_mode_info;
 };
 
-struct MULTIBOOT2_tag_framebuffer_common {
+struct multiboot2_tag_framebuffer_common {
         uint32_t type;
         uint32_t size;
 
@@ -226,13 +244,13 @@ struct MULTIBOOT2_tag_framebuffer_common {
         uint16_t reserved;
 };
 
-struct MULTIBOOT2_tag_framebuffer {
-        struct MULTIBOOT2_tag_framebuffer_common common;
+struct multiboot2_tag_framebuffer {
+        struct multiboot2_tag_framebuffer_common common;
 
         union {
                 struct {
                         uint16_t framebuffer_palette_num_colors;
-                        struct MULTIBOOT2_color framebuffer_palette[0];
+                        struct multiboot2_color framebuffer_palette[0];
                 };
                 struct {
                         uint8_t framebuffer_red_field_position;
@@ -245,7 +263,7 @@ struct MULTIBOOT2_tag_framebuffer {
         };
 };
 
-struct MULTIBOOT2_tag_elf_sections {
+struct multiboot2_tag_elf_sections {
         uint32_t type;
         uint32_t size;
         uint32_t num;
@@ -254,7 +272,7 @@ struct MULTIBOOT2_tag_elf_sections {
         char sections[0];
 };
 
-struct MULTIBOOT2_tag_apm {
+struct multiboot2_tag_apm {
         uint32_t type;
         uint32_t size;
         uint16_t version;
@@ -268,19 +286,19 @@ struct MULTIBOOT2_tag_apm {
         uint16_t dseg_len;
 };
 
-struct MULTIBOOT2_tag_efi32 {
+struct multiboot2_tag_efi32 {
         uint32_t type;
         uint32_t size;
         uint32_t pointer;
 };
 
-struct MULTIBOOT2_tag_efi64 {
+struct multiboot2_tag_efi64 {
         uint32_t type;
         uint32_t size;
         uint32_t pointer;
 };
 
-struct MULTIBOOT2_tag_smbios {
+struct multiboot2_tag_smbios {
         uint32_t type;
         uint32_t size;
         uint8_t major;
@@ -289,25 +307,25 @@ struct MULTIBOOT2_tag_smbios {
         uint8_t tables[0];
 };
 
-struct MULTIBOOT2_tag_old_acpi {
+struct multiboot2_tag_old_acpi {
         uint32_t type;
         uint32_t size;
         uint8_t rsdp[0];
 };
 
-struct MULTIBOOT2_tag_new_acpi {
+struct multiboot2_tag_new_acpi {
         uint32_t type;
         uint32_t size;
         uint8_t rsdp[0];
 };
 
-struct MULTIBOOT2_tag_network {
+struct multiboot2_tag_network {
         uint32_t type;
         uint32_t size;
         uint8_t dhcpack[0];
 };
 
-struct MULTIBOOT2_tag_efi_mmap {
+struct multiboot2_tag_efi_mmap {
         uint32_t type;
         uint32_t size;
         uint32_t descr_size;
@@ -315,23 +333,22 @@ struct MULTIBOOT2_tag_efi_mmap {
         uint8_t efi_mmap[0];
 };
 
-struct MULTIBOOT2_tag_efi32_ih {
+struct multiboot2_tag_efi32_ih {
         uint32_t type;
         uint32_t size;
         uint32_t pointer;
 };
 
-struct MULTIBOOT2_tag_efi64_ih {
+struct multiboot2_tag_efi64_ih {
         uint32_t type;
         uint32_t size;
         uint32_t pointer;
 };
 
-struct MULTIBOOT2_tag_load_base_addr {
+struct multiboot2_tag_load_base_addr {
         uint32_t type;
         uint32_t size;
         uint32_t load_base_addr;
 };
 
 #endif
-

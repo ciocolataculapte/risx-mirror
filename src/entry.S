@@ -6,11 +6,11 @@
         .section .text
         .global _start
 _start:
-        # mov     esp, stack0             # initialize stack
+        mov     esp, stack0             # initialize stack
         lgdt    [_desc]
         mov     ebp, esp
-        push    eax                     # magic number
         push    ebx                     # phys address of multiboot info struct
+        push    eax                     # magic number
         cli
         call    risx                    # should never return
 _halt:  jmp     _halt
@@ -40,6 +40,6 @@ _desc:  .word   (. - _gdt0 - 1)
         # # # # # # # # # # # # # # # #
         .section .bss
         .align  16
-top:    .skip   0x10000                 # 64K stack
+limit:  .skip   0x10000                 # 64K stack
 stack0: .skip   0x10000                 # stack for core 0
 stack1:                                 # stack for core 1

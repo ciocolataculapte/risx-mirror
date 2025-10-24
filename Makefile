@@ -7,14 +7,13 @@ QEMU32 := qemu-system-i386
 QEMUFLAGS := -m 4G -cdrom risx.iso
 QEMUDEBUGFLAGS := -s -S -monitor stdio
 
-S_SRCS := $(wildcard src/*.S)
-C_SRCS := $(wildcard src/*.c)
+S_SRCS := $(shell find src -name '*.S')
+C_SRCS := $(shell find src -name '*.c')
 
 SRCS := $(S_SRCS) $(C_SRCS)
-OBJ_DIR := target/i686
+OBJ_DIR := target
 
-OBJS := $(patsubst src/%, $(OBJ_DIR)/%, $(SRCS:.S=.o))
-OBJS := $(patsubst src/%, $(OBJ_DIR)/%, $(OBJS:.c=.o))
+OBJS := $(S_SRCS:src/%.S=$(OBJ_DIR)/%.o) $(C_SRCS:src/%.c=$(OBJ_DIR)/%.o)
 
 .PHONY: all clean check qemu qemu-debug
 all: risx.elf32
@@ -32,15 +31,15 @@ risx.elf32: $(OBJS) src/kernel.ld
 	$(CC) $(OBJS) $(LDFLAGS) -o $(OBJ_DIR)/risx.elf32
 
 $(OBJ_DIR)/%.o: src/%.S
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 $(OBJ_DIR)/%.o: src/%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 clean:
-	@rm -rf target/i686 target/iso risx.iso
+	@rm -rf target risx.iso
 
 check: risx.elf32
 	@grub-file --is-x86-multiboot2 $(OBJ_DIR)/risx.elf32 \

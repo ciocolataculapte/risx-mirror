@@ -1,8 +1,8 @@
         .intel_syntax noprefix
 
         .equ    STACK_SIZE, 0x1000      # 64K stack
-        .equ    CODE_SEG, seg0 - gdt0   # offset of code segment in GDT
-        .equ    DATA_SEG, seg1 - gdt0   # offset of data segment in GDT
+        .equ    CODE_SEG_OFFSET, 0x08
+        .equ    DATA_SEG_OFFSET, 0x10
 
         # # # # # # # # # # # # # # # #
         #       TEXT SECTION          #
@@ -14,10 +14,11 @@ _start: lea     esp, stack0             # initialize stack
         push    ebx                     # phys address of multiboot info struct
         push    eax                     # magic number
 
+        cli
         lgdt    [desc]                  # load global descriptor table
 
-        jmp     CODE_SEG:L1             # update code segment register
-L1:     mov     ax, DATA_SEG            # update other segment registers
+        jmp     CODE_SEG_OFFSET:L1      # update code segment register
+L1:     mov     ax, DATA_SEG_OFFSET     # update other segment registers
         mov     ds, ax
         mov     es, ax
         mov     fs, ax
@@ -33,19 +34,20 @@ halt:   jmp     halt
         #       DATA SECTION          #
         # # # # # # # # # # # # # # # #
         .section .data
-gdt0:   .quad   0                       # null required
-seg0:   .word   0xFFFF                  # segment limit first 0-15 bits
-        .word   0x0000                  # base fisr 0-15 bits
-        .byte   0x00                    # base 16-23 bits
-        .byte   0x9A                    # access byte
-        .byte   0b11001111              # flags
-        .byte   0x00                    # base 24-s31 bits
-seg1:   .word   0xFFFF                  # segment limit first 0-15 bits
-        .word   0x0000                  # base fisr 0-15 bits
-        .byte   0x00                    # base 16-23 bits
-        .byte   0x92                    # access byte
-        .byte   0b11001111              # flags
-        .byte   0x00                    # base 24-31 bits
+        .align  16
+gdt0:   .quad   0                       # null descriptor
+seg0:   .word   0xFFFF                  # kernel code segment
+        .word   0x0000
+        .byte   0x00
+        .byte   0x9A
+        .byte   0xCF
+        .byte   0x00
+seg1:   .word   0xFFFF                  # kernel data segment
+        .word   0x0000
+        .byte   0x00
+        .byte   0x92
+        .byte   0xCF
+        .byte   0x00
 desc:   .word   (. - gdt0 - 1)
         .long   gdt0
 

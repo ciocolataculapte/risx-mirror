@@ -63,8 +63,8 @@ uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
 }
 
 noreturn void risx(uint32_t magic, uintptr_t addr) {
-    vga_set_background_color(BG_LIGHT_BLUE);
-    vga_set_foreground_color(FG_WHITE);
+    vga_set_background_color(BG_BLACK);
+    vga_set_foreground_color(FG_LIGHT_GREY);
     clrscr();
 
     if (validate_mbi(magic, addr) != 0) {

@@ -1,23 +1,8 @@
 #include <stdint.h>
+#include <stdnoreturn.h>
+
 #include "multiboot2.h"
 #include "vga.h"
-
-uint32_t risx(uint32_t magic, uintptr_t addr);
-uint32_t validate_mbi(uint32_t magic, uintptr_t addr);
-
-uint32_t risx(uint32_t magic, uintptr_t addr) {
-    vga_set_background_color(BG_LIGHT_BLUE);
-    vga_set_foreground_color(FG_WHITE);
-    clrscr();
-
-    if (validate_mbi(magic, addr) != 0) {
-        return 1;
-    }
-
-    puts("Hello world!\n");
-
-    return 0;
-}
 
 uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
     if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
@@ -40,31 +25,31 @@ uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
     while (tag->type != MULTIBOOT2_TAG_TYPE_END) {
         switch (tag->type) {
             case MULTIBOOT2_TAG_TYPE_CMDLINE:
-                puts("processed command line tag\n");
+                puts("present: command line tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_BOOT_LOADER_NAME:
-                puts("processed boot loader name tag\n");
+                puts("present: boot loader name tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_MODULE:
-                puts("processed module tag\n");
+                puts("present: module tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_BASIC_MEMINFO:
-                puts("processed basic meminfo tag\n");
+                puts("present: basic meminfo tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_BOOTDEV:
-                puts("processed bootdev tag\n");
+                puts("present: bootdev tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_MMAP:
-                puts("processed mmap tag\n");
+                puts("present: mmap tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_FRAMEBUFFER:
-                puts("processed framebuffer tag\n");
+                puts("present: framebuffer tag\n");
                 break;
         }
 
@@ -76,3 +61,19 @@ uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
 
     return 0;
 }
+
+noreturn void risx(uint32_t magic, uintptr_t addr) {
+    vga_set_background_color(BG_LIGHT_BLUE);
+    vga_set_foreground_color(FG_WHITE);
+    clrscr();
+
+    if (validate_mbi(magic, addr) != 0) {
+        puts("error: multiboot2 parsing failed. halted.");
+        for (;;);
+    }
+
+    puts("Hello world!\n");
+
+    for (;;);
+}
+

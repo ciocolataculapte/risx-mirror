@@ -37,14 +37,15 @@ struct vga_char {
 #define BG_MAGENTA              ((uint8_t)5 << 4)
 #define BG_BROWN                ((uint8_t)6 << 4)
 #define BG_LIGHT_GREY           ((uint8_t)7 << 4)
-#define BG_DARK_GREY            ((uint8_t)8 << 4)
-#define BG_LIGHT_BLUE           ((uint8_t)9 << 4)
-#define BG_LIGHT_GREEN          ((uint8_t)10 << 4)
-#define BG_LIGHT_CYAN           ((uint8_t)11 << 4)
-#define BG_LIGHT_RED            ((uint8_t)12 << 4)
-#define BG_LIGHT_MAGENTA        ((uint8_t)13 << 4)
-#define BG_LIGHT_BROWN          ((uint8_t)14 << 4)
-#define BG_WHITE                ((uint8_t)15 << 4)
+// These cause blinking currently
+// #define BG_DARK_GREY            ((uint8_t)8 << 4)
+// #define BG_LIGHT_BLUE           ((uint8_t)9 << 4)
+// #define BG_LIGHT_GREEN          ((uint8_t)10 << 4)
+// #define BG_LIGHT_CYAN           ((uint8_t)11 << 4)
+// #define BG_LIGHT_RED            ((uint8_t)12 << 4)
+// #define BG_LIGHT_MAGENTA        ((uint8_t)13 << 4)
+// #define BG_LIGHT_BROWN          ((uint8_t)14 << 4)
+// #define BG_WHITE                ((uint8_t)15 << 4)
 
 #define BACKSPACE               ((char)'\b')
 #define BLANK                   ((char)' ')
@@ -60,5 +61,9 @@ void vga_set_cursor_position(uint8_t col, uint8_t row);
 void clrscr();
 void putc(char c);
 void puts(const char* str);
+void scroll(size_t lines);
+// void enable_cursor();
+// void disable_cursor();
+// void set_cursor_position();
 
 #endif

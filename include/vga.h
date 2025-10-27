@@ -57,7 +57,7 @@ struct vga_char {
 // video/vga.c
 void vga_set_background_color(uint8_t color);
 void vga_set_foreground_color(uint8_t color);
-void vga_set_cursor_position(uint8_t col, uint8_t row);
+// void vga_set_cursor_position(uint8_t col, uint8_t row);
 void clrscr();
 void putc(char c);
 void puts(const char* str);

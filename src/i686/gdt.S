@@ -28,9 +28,9 @@
         .byte 0, 0, 0, 0
 
 #define SEG_ASM(type,base,lim)                                                 \
-        .word (((lim) >> 12) & 0xffff), ((base) & 0xffff);                     \
-        .byte (((base) >> 16) & 0xff), (0x90 | (type)),                        \
-                (0xC0 | (((lim) >> 28) & 0xf)), (((base) >> 24) & 0xff)
+        .word (((lim) >> 12) & 0xFFFF), ((base) & 0xFFFF);                     \
+        .byte (((base) >> 16) & 0xFF), (0x90 | (type)),                        \
+                (0xC0 | (((lim) >> 28) & 0xf)), (((base) >> 24) & 0xFF)
 
 #define STA_X 0x8                       // Executable segment
 #define STA_W 0x2                       // Writeable (non-executable segments)
@@ -43,7 +43,7 @@
         .global _desc
         .align  16
 gdt0:   SEG_NULLASM
-seg0:   SEG_ASM(STA_X | STA_R, 0x0, 0xffffffff)
-seg1:   SEG_ASM(STA_W, 0x0, 0xffffffff)
+seg0:   SEG_ASM(STA_X | STA_R, 0x0, 0xFFFFFFFF)
+seg1:   SEG_ASM(STA_W, 0x0, 0xFFFFFFFF)
 _desc:  .word   (. - gdt0 - 1)
         .long   gdt0

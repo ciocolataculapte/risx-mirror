@@ -9,3 +9,4 @@ the root of the repository.
 
 The following files are derived from other projects:
     include/multiboot2.h: Multiboot specification 2.0, copyright FSF
+    src/i686/gdt.S: xv6-public, copyright MIT

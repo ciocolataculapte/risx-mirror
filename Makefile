@@ -1,7 +1,7 @@
 CC := i686-elf-gcc
 CPPFLAGS := -Ilibk/include -Isys/include
 CFLAGS := -std=c17 -ffreestanding -O2 -Wall -Wextra -g
-LDFLAGS := -T sys/src/kernel.ld -ffreestanding -O2 -nostdlib -lgcc -g -Llibk -lk
+LDFLAGS := -T sys/src/kernel.ld -ffreestanding -O2 -nostdlib -lgcc -g
 
 OBJ_DIR := target
 
@@ -11,17 +11,14 @@ QEMUDEBUGFLAGS := -s -S -monitor stdio
 
 .PHONY: all clean check qemu qemu-debug libk sys
 
-all: libk sys $(OBJ_DIR)/risx.iso
+all:sys $(OBJ_DIR)/risx.iso
 
-libk:
-	$(MAKE) -C libk
-
-sys: libk
+sys:
 	$(MAKE) -C sys
 
 $(OBJ_DIR)/risx.iso: $(OBJ_DIR)/risx.elf32
 	@mkdir -p $(OBJ_DIR)/iso/boot/grub
-	@cp sys/config/grub/grub.cfg $(OBJ_DIR)/iso/boot/grub/grub.cfg
+	@cp config/grub/grub.cfg $(OBJ_DIR)/iso/boot/grub/grub.cfg
 	@cp $(OBJ_DIR)/risx.elf32 $(OBJ_DIR)/iso/boot/risx.elf32
 	@grub-mkrescue -o $(OBJ_DIR)/risx.iso $(OBJ_DIR)/iso \
 		&& echo "ISO OK" \

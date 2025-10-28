@@ -1,7 +1,7 @@
 CC := i686-elf-gcc
 CPPFLAGS := -Iinclude -I../libk/include
 CFLAGS := -std=c17 -ffreestanding -O2 -Wall -Wextra -g
-LDFLAGS := -T src/kernel.ld -ffreestanding -O2 -nostdlib -lgcc -g -L../libk -lk
+LDFLAGS := -T src/kernel.ld -ffreestanding -O2 -nostdlib -lgcc -g
 
 QEMU32 := qemu-system-i386
 QEMUFLAGS := -m 4G -cdrom risx.iso

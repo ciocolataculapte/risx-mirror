@@ -2,13 +2,13 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-#include "stdio.h"
+#include "console.h"
 #include "string.h"
 
-static bool print(const char* data, size_t length) {
+static bool kprint(const char* data, size_t length) {
 	const unsigned char* bytes = (const unsigned char*) data;
 	for (size_t i = 0; i < length; i++) {
-		if (putchar(bytes[i]) == EOF) {
+		if (kputchar(bytes[i]) == EOF) {
 			return false;
         }
     }
@@ -16,7 +16,7 @@ static bool print(const char* data, size_t length) {
 	return true;
 }
 
-int printf(const char* restrict format, ...) {
+int kprintf(const char* restrict format, ...) {
 	va_list parameters;
 	va_start(parameters, format);
 
@@ -38,7 +38,7 @@ int printf(const char* restrict format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-			if (!print(format, amount)) {
+			if (!kprint(format, amount)) {
 				return -1;
             }
 
@@ -58,7 +58,7 @@ int printf(const char* restrict format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-            if (!print(&c, sizeof(c))) {
+            if (!kprint(&c, sizeof(c))) {
 				return -1;
             }
 
@@ -72,7 +72,7 @@ int printf(const char* restrict format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-            if (!print(str, len)) {
+            if (!kprint(str, len)) {
 				return -1;
             }
 
@@ -85,7 +85,7 @@ int printf(const char* restrict format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-            if (!print(format, len)) {
+            if (!kprint(format, len)) {
 				return -1;
             }
 
@@ -96,4 +96,14 @@ int printf(const char* restrict format, ...) {
 
 	va_end(parameters);
 	return written;
+}
+
+int kdebugf(const char* restrict format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    int result = kprintf(format, args);
+    va_end(args);
+
+    return result;
 }

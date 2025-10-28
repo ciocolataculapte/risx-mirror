@@ -1,9 +1,9 @@
 #include <stdbool.h>
 #include <stdnoreturn.h>
-#include "stdio.h"
+#include "console.h"
 #include "stdlib.h"
 
 noreturn void abort(void) {
-	printf("kernel: panic: abort()\n");
+	kprintf("kernel: panic: abort()\n");
     while (true);
 }

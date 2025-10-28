@@ -1,8 +1,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdnoreturn.h>
+#include "console.h"
 #include "multiboot2.h"
-#include "stdio.h"
 #include "vga.h"
 
 uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
@@ -75,7 +75,8 @@ noreturn void risx(uint32_t magic, uintptr_t addr) {
 
     vga_puts("Hello world!\n");
 
-    printf("Hello world from printf!\n");
+    kprintf("Hello world from kprintf!\n");
+    kdebugf("Hello world from kdebugf!\n");
 
     while (true);
 }

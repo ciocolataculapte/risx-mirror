@@ -1,7 +1,7 @@
-#include "stdio.h"
+#include "console.h"
 #include "vga.h"
 
-int putchar(int ic) {
+int kputchar(int ic) {
 	char c = (char) ic;
 	vga_putc(c);
 

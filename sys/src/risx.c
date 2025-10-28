@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdnoreturn.h>
 #include "multiboot2.h"
@@ -69,13 +70,13 @@ noreturn void risx(uint32_t magic, uintptr_t addr) {
 
     if (validate_mbi(magic, addr) != 0) {
         vga_puts("error: multiboot2 parsing failed. halted.");
-        for (;;);
+        while (true);
     }
 
     vga_puts("Hello world!\n");
 
     printf("Hello world from printf!\n");
 
-    for (;;);
+    while (true);
 }
 

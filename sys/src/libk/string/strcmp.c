@@ -4,7 +4,7 @@
 
 int strcmp(const char* a, const char* b) {
 	size_t i = 0;
-	while(true) {
+	while (true) {
 		unsigned char a_byte = a[i];
 		unsigned char b_byte = b[i];
 

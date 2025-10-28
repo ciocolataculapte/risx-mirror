@@ -55,16 +55,10 @@ struct vga_char {
 #define NULLCHAR                ((char)'\0')
 #define TAB                     ((char)'\t')
 
-// video/vga.c
+// vga.c
 void vga_set_background_color(uint8_t color);
 void vga_set_foreground_color(uint8_t color);
-// void vga_set_cursor_position(uint8_t col, uint8_t row);
 void clrscr();
-void putc(char c);
-void puts(const char* str);
 void scroll(size_t lines);
-// void enable_cursor();
-// void disable_cursor();
-// void set_cursor_position();
 
 #endif

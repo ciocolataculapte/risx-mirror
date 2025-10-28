@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdnoreturn.h>
 
+#include "console.h"
 #include "multiboot2.h"
 #include "vga.h"
 

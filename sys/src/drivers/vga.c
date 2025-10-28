@@ -24,14 +24,14 @@ void vga_set_foreground_color(uint8_t color) {
 void vga_scroll(size_t lines) {
     struct vga_char* vga_memory = VGA_MEM_ADDR;
 
-    for (size_t row = 0; row < VGA_ROWS - lines; row = row + 1) {
-        for (size_t col = 0; col < VGA_COLS; col = col + 1) {
+    for (size_t row = 0; row < VGA_ROWS - lines; row++) {
+        for (size_t col = 0; col < VGA_COLS; col++) {
             vga_memory[row * VGA_COLS + col] = vga_memory[(row + lines) * VGA_COLS + col];
         }
     }
 
-    for (size_t row = VGA_ROWS - lines; row < VGA_ROWS; row = row + 1) {
-        for (size_t col = 0; col < VGA_COLS; col = col + 1) {
+    for (size_t row = VGA_ROWS - lines; row < VGA_ROWS; row++) {
+        for (size_t col = 0; col < VGA_COLS; col++) {
             vga_memory[row * VGA_COLS + col].character = BLANK;
             vga_memory[row * VGA_COLS + col].attribute = BACKGROUND_COLOR | FOREGROUND_COLOR;
         }
@@ -54,16 +54,16 @@ void vga_putc(char c) {
 
     if (c == NEWLINE) {
         CURSOR_COL = 0;
-        CURSOR_ROW = CURSOR_ROW + 1;
+        CURSOR_ROW++;
     } else {
         vga_memory[CURSOR_ROW * VGA_COLS + CURSOR_COL].character = c;
         vga_memory[CURSOR_ROW * VGA_COLS + CURSOR_COL].attribute = BACKGROUND_COLOR | FOREGROUND_COLOR;
 
-        CURSOR_COL = CURSOR_COL + 1;
+        CURSOR_COL++;
 
         if (CURSOR_COL >= VGA_COLS) {
             CURSOR_COL = 0;
-            CURSOR_ROW = CURSOR_ROW + 1;
+            CURSOR_ROW++;
         }
     }
 }
@@ -71,14 +71,14 @@ void vga_putc(char c) {
 void vga_puts(const char* str) {
     while (*str != NULLCHAR) {
         vga_putc(*str);
-        str = str + 1;
+        str++;
     }
 }
 
 void vga_clrscr() {
     struct vga_char* vga_memory = VGA_MEM_ADDR;
 
-    for (size_t i = 0; i < VGA_COLS * VGA_ROWS; i = i + 1) {
+    for (size_t i = 0; i < VGA_COLS * VGA_ROWS; i++) {
         vga_memory[i].character = BLANK;
         vga_memory[i].attribute = BACKGROUND_COLOR | FOREGROUND_COLOR;
     }

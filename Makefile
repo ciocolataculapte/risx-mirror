@@ -4,7 +4,6 @@ QEMU32 := qemu-system-i386
 QEMUFLAGS := -m 4G -cdrom $(OBJ_DIR)/risx.iso
 QEMUDEBUGFLAGS := -s -S -monitor stdio
 
-.PHONY: all clean check qemu qemu-debug sys iso
 
 all: sys iso
 
@@ -32,3 +31,5 @@ qemu: iso
 
 qemu-debug: iso
 	@$(QEMU32) $(QEMUFLAGS) $(QEMUDEBUGFLAGS)
+
+.PHONY: all sys iso clean check qemu qemu-debug

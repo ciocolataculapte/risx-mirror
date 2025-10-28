@@ -1,7 +1,7 @@
 CC := i686-elf-gcc
-CPPFLAGS := -Iinclude
+CPPFLAGS := -Iinclude -I../libk/include
 CFLAGS := -std=c17 -ffreestanding -O2 -Wall -Wextra -g
-LDFLAGS := -T src/kernel.ld -ffreestanding -O2 -nostdlib -lgcc -g
+LDFLAGS := -T src/kernel.ld -ffreestanding -O2 -nostdlib -lgcc -g -L../libk -lk
 
 QEMU32 := qemu-system-i386
 QEMUFLAGS := -m 4G -cdrom risx.iso
@@ -16,17 +16,17 @@ OBJ_DIR := target
 OBJS := $(S_SRCS:src/%.S=$(OBJ_DIR)/%.o) $(C_SRCS:src/%.c=$(OBJ_DIR)/%.o)
 
 .PHONY: all clean check qemu qemu-debug
-all: risx.elf32
+all: $(OBJ_DIR)/risx.elf32
 
-risx.iso: risx.elf32 config/grub/grub.cfg
-	@mkdir -p target/iso/boot/grub
-	@cp config/grub/grub.cfg target/iso/boot/grub/grub.cfg
-	@cp $(OBJ_DIR)/risx.elf32 target/iso/boot/risx.elf32
-	@grub-mkrescue -o risx.iso target/iso \
+risx.iso: $(OBJ_DIR)/risx.elf32 config/grub/grub.cfg
+	@mkdir -p $(OBJ_DIR)/iso/boot/grub
+	@cp config/grub/grub.cfg $(OBJ_DIR)/iso/boot/grub/grub.cfg
+	@cp $(OBJ_DIR)/risx.elf32 $(OBJ_DIR)/iso/boot/risx.elf32
+	@grub-mkrescue -o risx.iso $(OBJ_DIR)/iso \
 		&& echo "ISO OK" \
 		|| echo "ISO FAILED"
 
-risx.elf32: $(OBJS) src/kernel.ld
+$(OBJ_DIR)/risx.elf32: $(OBJS) src/kernel.ld
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(OBJ_DIR)/risx.elf32
 
@@ -41,7 +41,7 @@ $(OBJ_DIR)/%.o: src/%.c
 clean:
 	@rm -rf target risx.iso
 
-check: risx.elf32
+check: $(OBJ_DIR)/risx.elf32
 	@grub-file --is-x86-multiboot2 $(OBJ_DIR)/risx.elf32 \
 		&& echo "MULTIBOOT2 OK" \
 		|| echo "MULTIBOOT2 NONCOMPLIANT"

@@ -16,6 +16,14 @@ void vga_set_foreground_color(uint8_t color) {
     FOREGROUND_COLOR = color;
 }
 
+uint8_t vga_get_background_color() {
+    return BACKGROUND_COLOR;
+}
+
+uint8_t vga_get_foreground_color() {
+    return FOREGROUND_COLOR;
+}
+
 // void vga_set_cursor_position(uint8_t col, uint8_t row) {
 //     CURSOR_COL = col;
 //     CURSOR_ROW = row;

@@ -4,6 +4,6 @@
 #include "stdlib.h"
 
 noreturn void abort(void) {
-	kprintf("kernel: panic: abort()\n");
+	kerrorf("panic: abort()\n");
     while (true);
 }

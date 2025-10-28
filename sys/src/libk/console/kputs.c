@@ -2,5 +2,5 @@
 #include "vga.h"
 
 int kputs(const char* string) {
-	return kprintf("%s\n", string);
+	return kprintf(string); // not efficient, but works for now
 }

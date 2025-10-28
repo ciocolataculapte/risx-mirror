@@ -58,7 +58,9 @@ struct vga_char {
 // vga.c
 void vga_set_background_color(uint8_t color);
 void vga_set_foreground_color(uint8_t color);
-void clrscr();
-void scroll(size_t lines);
+void vga_putc(char c);
+void vga_puts(const char* str);
+void vga_clrscr();
+void vga_scroll(size_t lines);
 
 #endif

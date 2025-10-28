@@ -22,7 +22,7 @@ void vga_set_foreground_color(uint8_t color) {
 //     CURSOR_ROW = row;
 // }
 
-void scroll(size_t lines) {
+void vga_scroll(size_t lines) {
     struct vga_char* vga_memory = VGA_MEM_ADDR;
 
     for (size_t row = 0; row < VGA_ROWS - lines; row = row + 1) {
@@ -45,11 +45,11 @@ void scroll(size_t lines) {
     }
 }
 
-void putc(char c) {
+void vga_putc(char c) {
     struct vga_char* vga_memory = VGA_MEM_ADDR;
 
     if (CURSOR_ROW >= VGA_ROWS) {
-        scroll(1);
+        vga_scroll(1);
         CURSOR_ROW = VGA_ROWS - 1;
     }
 
@@ -69,14 +69,14 @@ void putc(char c) {
     }
 }
 
-void puts(const char* str) {
+void vga_puts(const char* str) {
     while (*str != NULLCHAR) {
-        putc(*str);
+        vga_putc(*str);
         str = str + 1;
     }
 }
 
-void clrscr() {
+void vga_clrscr() {
     struct vga_char* vga_memory = VGA_MEM_ADDR;
 
     for (size_t i = 0; i < VGA_COLS * VGA_ROWS; i = i + 1) {

@@ -1,12 +1,10 @@
-#ifndef _STDIO_H
-#define _STDIO_H 1
-
-#include <sys/cdefs.h>
+#ifndef STDIO_H
+#define STDIO_H 1
 
 #define EOF (-1)
 
-int printf(const char* __restrict, ...);
-int putchar(int);
-int puts(const char*);
+int printf(const char* restrict format, ...);
+int putchar(int c);
+int puts(const char* s);
 
 #endif

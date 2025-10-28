@@ -1,22 +1,21 @@
 #include <stdint.h>
 #include <stdnoreturn.h>
 
-#include "console.h"
 #include "multiboot2.h"
 #include "vga.h"
 
 uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
     if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
-        puts("error: invalid magic number\n");
+        vga_puts("error: invalid magic number\n");
         return 1;
     }
 
     if ((addr & 0x7) != 0) {
-        puts("error: unaligned multiboot2 info structure\n");
+        vga_puts("error: unaligned multiboot2 info structure\n");
         return 1;
     }
 
-    puts("multiboot2 info structure is valid\n");
+    vga_puts("multiboot2 info structure is valid\n");
 
     #define ALIGN_UP(value, align) (((value) + (align) - 1) & ~((align) - 1))
 
@@ -26,31 +25,31 @@ uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
     while (tag->type != MULTIBOOT2_TAG_TYPE_END) {
         switch (tag->type) {
             case MULTIBOOT2_TAG_TYPE_CMDLINE:
-                puts("present: command line tag\n");
+                vga_puts("present: command line tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_BOOT_LOADER_NAME:
-                puts("present: boot loader name tag\n");
+                vga_puts("present: boot loader name tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_MODULE:
-                puts("present: module tag\n");
+                vga_puts("present: module tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_BASIC_MEMINFO:
-                puts("present: basic meminfo tag\n");
+                vga_puts("present: basic meminfo tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_BOOTDEV:
-                puts("present: bootdev tag\n");
+                vga_puts("present: bootdev tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_MMAP:
-                puts("present: mmap tag\n");
+                vga_puts("present: mmap tag\n");
                 break;
 
             case MULTIBOOT2_TAG_TYPE_FRAMEBUFFER:
-                puts("present: framebuffer tag\n");
+                vga_puts("present: framebuffer tag\n");
                 break;
         }
 
@@ -66,14 +65,14 @@ uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
 noreturn void risx(uint32_t magic, uintptr_t addr) {
     vga_set_background_color(BG_BLACK);
     vga_set_foreground_color(FG_LIGHT_GREY);
-    clrscr();
+    vga_clrscr();
 
     if (validate_mbi(magic, addr) != 0) {
-        puts("error: multiboot2 parsing failed. halted.");
+        vga_puts("error: multiboot2 parsing failed. halted.");
         for (;;);
     }
 
-    puts("Hello world!\n");
+    vga_puts("Hello world!\n");
 
     for (;;);
 }

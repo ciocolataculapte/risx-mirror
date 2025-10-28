@@ -1,14 +1,14 @@
 #include <stddef.h>
 #include "string.h"
 
-char* strcpy(char* restrict dest, const char* src) {
-	char *dest_bytes = (char *)dest;
+char* strcpy(char* restrict dst, const char* src) {
+	char *dst_bytes = (char *)dst;
 	char *src_bytes = (char *)src;
 	while (*src_bytes) {
-		*(dest_bytes++) = *(src_bytes++);
+		*(dst_bytes++) = *(src_bytes++);
     }
 
-	*dest_bytes = 0;
+	*dst_bytes = 0;
 
-    return dest;
+    return dst;
 }

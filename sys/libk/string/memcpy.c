@@ -1,4 +1,5 @@
-#include <string.h>
+#include <stddef.h>
+#include "string.h"
 
 void* memcpy(void* restrict dstptr, const void* restrict srcptr, size_t size) {
 	unsigned char* dst = (unsigned char*) dstptr;

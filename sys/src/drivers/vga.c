@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include <stdint.h>
-
 #include "vga.h"
 
 static uint8_t BACKGROUND_COLOR = BG_BLACK;

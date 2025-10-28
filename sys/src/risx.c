@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdnoreturn.h>
 #include "multiboot2.h"
+#include "stdio.h"
 #include "vga.h"
 
 uint32_t validate_mbi(uint32_t magic, uintptr_t addr) {
@@ -72,6 +73,8 @@ noreturn void risx(uint32_t magic, uintptr_t addr) {
     }
 
     vga_puts("Hello world!\n");
+
+    printf("Hello world from printf!\n");
 
     for (;;);
 }

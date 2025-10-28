@@ -1,3 +1,4 @@
+#include <stdnoreturn.h>
 #include "stdio.h"
 #include "stdlib.h"
 

@@ -78,6 +78,19 @@ noreturn void risx(uint32_t magic, uintptr_t addr) {
     kprintf("Hello world from kprintf!\n");
     kdebugf("Hello world from kdebugf!\n");
 
+    int i = -300;
+    unsigned int j = 16;
+    char c = 'A';
+    void* p = (void*)0xDEADBEEF;
+    static char* str = "This is a test string.";
+
+    kprintf("int: %d\n", i);
+    kprintf("unsigned int: %u\n", j);
+    kprintf("char: %c\n", c);
+    kprintf("hex: %x\n", j);
+    kprintf("pointer: %p\n", p);
+    kprintf("string: %s\n", str);
+
     while (true);
 }
 
